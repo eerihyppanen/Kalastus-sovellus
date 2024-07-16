@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FishListAdapter extends RecyclerView.Adapter<FishViewHolder> {
 
@@ -29,8 +30,8 @@ public class FishListAdapter extends RecyclerView.Adapter<FishViewHolder> {
     public void onBindViewHolder(@NonNull FishViewHolder holder, int position) {
         holder.species.setText(fishes.get(position).getSpecies());
         holder.lake.setText(fishes.get(position).getLake());
-        holder.weight.setText(String.valueOf(fishes.get(position).getWeight()));
-        holder.length.setText(String.valueOf(fishes.get(position).getLength()));
+        holder.weight.setText(String.valueOf(fishes.get(position).getWeight()) + " kg");
+        holder.length.setText(String.valueOf(fishes.get(position).getLength()) + " cm");
         holder.decision.setText(fishes.get(position).getDecision());
 
 
@@ -42,4 +43,13 @@ public class FishListAdapter extends RecyclerView.Adapter<FishViewHolder> {
     public int getItemCount() {
         return fishes.size();
     }
+
+    public void updateFishes(ArrayList<Fish> newFishes) {
+        this.fishes = newFishes;
+        notifyDataSetChanged();
+    }
+
+
 }
+
+

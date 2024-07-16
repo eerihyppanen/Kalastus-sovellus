@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         context = this;
+        Storage.getInstance().loadFishes(getApplicationContext());
     }
 
     public void fishAdd(View view)  {
@@ -42,8 +44,21 @@ public class MainActivity extends AppCompatActivity {
         String weightString = editWeight.getText().toString();
         String lengthString = editLength.getText().toString();
 
-        double weight = Double.parseDouble(weightString);
-        double length = Double.parseDouble(lengthString);
+        if (species.isEmpty() || lake.isEmpty() || weightString.isEmpty() || lengthString.isEmpty()) {
+            Toast.makeText(this, "Täytä kaikki kentät.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double weight;
+        double length;
+
+        try {
+            weight = Double.parseDouble(weightString);
+            length = Double.parseDouble(lengthString);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Käytä vain numeroita ja pistettä painossa ja pituudessa.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
         RadioGroup rgDecisionTpe = findViewById(R.id.RGDecision);
@@ -56,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
             Fish fish = new Fish(weight, species, lake, length, decision);
             Storage.getInstance().addFish(fish);
+            Storage.getInstance().saveFishes(context);
+            Toast.makeText(this, "Kala lisätty!", Toast.LENGTH_SHORT).show();
 
         }
 

@@ -1,6 +1,8 @@
 package com.example.kalastus_sovellus;
 
-public class Fish {
+import java.io.Serializable;
+
+public class Fish implements Serializable {
     double weight;
     String species;
     String lake;
